@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+# -*- coding: utf-8 -*- 
+
 from google.appengine.api import mail
 from google.appengine.api import xmpp
 from google.appengine.api import capabilities
@@ -36,7 +38,7 @@ class MainHandler(webapp2.RequestHandler):
 
     mail.send_mail(sender_address, user_address, subject, body)
 
-    #Chat- Chat do Google não suporta mais
+    #Chat- Chat do Google nao suporta mais
     chat_message_sent = False
     msg = "Sua solicitacao foi feita com sucesso. O aluno que fez esse web service merece um 10."
     status_code = xmpp.send_message(user_address, msg)
@@ -44,7 +46,7 @@ class MainHandler(webapp2.RequestHandler):
 
     #capabilities
     if capabilities.CapabilitySet('mail').is_enabled():
-      self.response.write('E-mail tá funfando!')
+      self.response.write('E-mail ta funfando!')
 
 
 app = webapp2.WSGIApplication([
