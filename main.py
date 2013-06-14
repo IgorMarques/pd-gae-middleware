@@ -49,6 +49,12 @@ class MainHandler(webapp2.RequestHandler):
       self.response.write('E-mail ta funfando!')
 
 
+    try:
+      if capabilities.CapabilitySet('maaadadasdasil').is_enabled():
+        self.response.write('dajdbasjdbash funfando!')
+    except capabilities.UnknownCapabilityError:
+      self.response.write('Nao ta funfando!')
+   
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
 ], debug=True)
