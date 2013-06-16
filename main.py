@@ -20,41 +20,45 @@
 from google.appengine.api import mail
 from google.appengine.api import xmpp
 from google.appengine.api import capabilities
+from google.appengine.api import urlfetch
+import urllib2
+import urllib
 
 import webapp2
 
 class MainHandler(webapp2.RequestHandler):
 
   def get(self):
+
     #E-mail
     sender_address = "igormarquessilva@gmail.com"
-    user_address = "igormarquessilva@gmail.com"
+    user_address = "luizrogeriocn@gmail.com"
     subject = "Solicitacao via Middleware"
     body = "Sua solicitacao foi feita com sucesso. O aluno que fez esse web service merece um 10."
 
     self.response.write('Hello, webapp2 World!')
 
-    print "hue"
-
-    mail.send_mail(sender_address, user_address, subject, body)
-
-    #Chat- Chat do Google nao suporta mais
-    chat_message_sent = False
-    msg = "Sua solicitacao foi feita com sucesso. O aluno que fez esse web service merece um 10."
-    status_code = xmpp.send_message(user_address, msg)
-    chat_message_sent = (status_code == xmpp.NO_ERROR)
-
-    #capabilities
-    if capabilities.CapabilitySet('mail').is_enabled():
-      self.response.write('E-mail ta funfando!')
+    
+    #mail.send_mail(sender_address, user_address, subject, body)
 
 
-    try:
-      if capabilities.CapabilitySet('maaadadasdasil').is_enabled():
-        self.response.write('dajdbasjdbash funfando!')
-    except capabilities.UnknownCapabilityError:
-      self.response.write('Nao ta funfando!')
-   
+    #URL_fetch
+
+    #cadastrando aplicação no lookup
+    form_fields = {
+      "endpoint": "igor-pd-app.appspot.com",
+      "id": "igor-app-id"
+    }
+
+    url = "http://lookuppd.appspot.com/objects/add"
+    
+    form_data = urllib.urlencode(form_fields)
+
+    result= urlfetch.fetch(url=url,
+    payload=form_data,
+    method=urlfetch.POST,
+    headers={'Content-Type': 'application/x-www-form-urlencoded'})
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
 ], debug=True)
