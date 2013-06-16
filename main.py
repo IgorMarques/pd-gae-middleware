@@ -17,12 +17,9 @@
 
 # -*- coding: utf-8 -*- 
 
-from google.appengine.api import mail
-from google.appengine.api import xmpp
-from google.appengine.api import capabilities
-from google.appengine.api import urlfetch
-import urllib2
-import urllib
+from mailer import Mailer
+from register import Register
+
 
 import webapp2
 
@@ -32,41 +29,39 @@ class AppHandler(webapp2.RequestHandler):
         self.response.set_status(200)
         self.response.write("Funcionou")
 
+def decode(s):
+    vector = s.split("&")
 
+    params = {}
+
+    for v in vector:
+      aux = v.split("=")
+      params[aux[0]] = aux[1]
 
 class MainHandler(webapp2.RequestHandler):
 
+
   def get(self):
 
-    #1. E-mail=======================================================
+    #1. URL_fetch====================================================
 
-    sender_address = "igormarquessilva@gmail.com"
-    user_address = "luizrogeriocn@gmail.com"
+    Register.register(self)
+
+    self.response.set_status(200)
+
+    self.response.write("App no Ar - Solicitacao Recebida<br/>")
+
+    #2. E-mail=======================================================
+
+    user_address = "igormarquessilva@gmail.com"
     subject = "Solicitacao via Middleware"
     body = "Sua solicitacao foi feita com sucesso. O aluno que fez esse web service merece um 10."
 
-    self.response.write('Hello, webapp2 World!')
+    Mailer.send_mail(self, user_address, subject, body)
 
-    
-    #mail.send_mail(sender_address, user_address, subject, body)
+  def post(self):
+    self.response.write(decode(self.request.body))
 
-
-    #2. URL_fetch====================================================
-
-    #cadastrando aplicacao no lookup
-    form_fields = {
-      "endpoint": "igor-pd-app.appspot.com",
-      "id": "igor-app-id"
-    }
-
-    url = "http://lookuppd.appspot.com/objects/add"
-    
-    form_data = urllib.urlencode(form_fields)
-
-    result= urlfetch.fetch(url=url,
-    payload=form_data,
-    method=urlfetch.POST,
-    headers={'Content-Type': 'application/x-www-form-urlencoded'})
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
