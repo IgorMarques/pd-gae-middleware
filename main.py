@@ -26,11 +26,20 @@ import urllib
 
 import webapp2
 
+class AppHandler(webapp2.RequestHandler):
+
+    def get(self):
+        self.response.set_status(200)
+        self.response.write("Funcionou")
+
+
+
 class MainHandler(webapp2.RequestHandler):
 
   def get(self):
 
-    #E-mail
+    #1. E-mail=======================================================
+
     sender_address = "igormarquessilva@gmail.com"
     user_address = "luizrogeriocn@gmail.com"
     subject = "Solicitacao via Middleware"
@@ -42,9 +51,9 @@ class MainHandler(webapp2.RequestHandler):
     #mail.send_mail(sender_address, user_address, subject, body)
 
 
-    #URL_fetch
+    #2. URL_fetch====================================================
 
-    #cadastrando aplicação no lookup
+    #cadastrando aplicacao no lookup
     form_fields = {
       "endpoint": "igor-pd-app.appspot.com",
       "id": "igor-app-id"
@@ -60,5 +69,8 @@ class MainHandler(webapp2.RequestHandler):
     headers={'Content-Type': 'application/x-www-form-urlencoded'})
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/igor-app-id/hue', AppHandler)
 ], debug=True)
+
+
