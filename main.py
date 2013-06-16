@@ -20,7 +20,7 @@
 from mailer import Mailer
 from register import Register
 from book import Book
-from google.appengine.ext import db
+from library import Library
 
 import webapp2
 
@@ -43,8 +43,9 @@ def decode(s):
 
 class MainHandler(webapp2.RequestHandler):
 
-
   def get(self):
+
+    Library.get_books(self)
 
     #1. URL_fetch====================================================
 
@@ -65,18 +66,15 @@ class MainHandler(webapp2.RequestHandler):
   def post(self):
     params = decode(self.request.body)
 
-    b = Book(name= params["name"], quantity= params["qtd"])
+    Library.add_book(self, params["name"], params["qtd"])
 
-    self.response.write(b.name + b.quantity)
+  def put(self):
+    return "todo"
 
-    b.put()
+  def delete(self):
+    params = decode(self.request.body)
 
-    books = db.GqlQuery("SELECT * FROM Book")
-
-    for e in books:
-      self.response.write(e.name + e.quantity)
-
-
+    Library.delete_book(self, params["name"])
 
 
 app = webapp2.WSGIApplication([
