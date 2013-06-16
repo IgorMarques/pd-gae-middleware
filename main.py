@@ -64,7 +64,7 @@ class MainHandler(webapp2.RequestHandler):
   def post(self):
     params = decode(self.request.body)
 
-    b = Book(params["name"], params["qtd"])
+    b = Book(name= params["name"], quantity= params["qtd"])
 
     self.response.write(b.name + b.quantity)
 
