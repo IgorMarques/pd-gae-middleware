@@ -20,6 +20,7 @@
 from mailer import Mailer
 from register import Register
 from book import Book
+from google.appengine.ext import db
 
 import webapp2
 
@@ -69,6 +70,11 @@ class MainHandler(webapp2.RequestHandler):
     self.response.write(b.name + b.quantity)
 
     b.put()
+
+    books = db.GqlQuery("SELECT * FROM Book")
+
+    for e in books:
+      self.response.write(e.name + e.quantity)
 
 
 
