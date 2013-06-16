@@ -22,21 +22,21 @@ class Library:
 
   @staticmethod
   def lend_book(self, book_name):
-    books = db.GqlQuery("SELECT * FROM Book")
+    books = db.GqlQuery("SELECT * FROM Book WHERE name = :1", book_name)
 
     for b in books:
       b.quantity = int( int(b.quantity) -1 )
       b.put()
-      self.response.write("> A quantidade do livro" + b.name +  " eh: " + str(b.quantity)) 
+      self.response.write("> A quantidade do livro " + b.name +  " eh: " + str(b.quantity)) 
 
   @staticmethod
   def return_book(self, book_name):
-    books = db.GqlQuery("SELECT * FROM Book")
+    books = db.GqlQuery("SELECT * FROM Book WHERE name = :1", book_name)
 
     for b in books:
       b.quantity = int( int(b.quantity) +1 )
       b.put()
-      self.response.write("> A quantidade do livro" + b.name + " eh: " +  str(b.quantity))
+      self.response.write("> A quantidade do livro " + b.name + " eh: " +  str(b.quantity))
 
   @staticmethod
   def delete_book(self, book_name):
