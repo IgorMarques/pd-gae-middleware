@@ -19,7 +19,7 @@
 
 from mailer import Mailer
 from register import Register
-
+from book import Book
 
 import webapp2
 
@@ -37,6 +37,8 @@ def decode(s):
     for v in vector:
       aux = v.split("=")
       params[aux[0]] = aux[1]
+
+    return params
 
 class MainHandler(webapp2.RequestHandler):
 
@@ -60,7 +62,13 @@ class MainHandler(webapp2.RequestHandler):
     Mailer.send_mail(self, user_address, subject, body)
 
   def post(self):
-    self.response.write(decode(self.request.body))
+    params = decode(self.request.body)
+
+    b = Book(params["name"], params["qtd"])
+
+    self.response.write(b.name + b.quantity)
+
+
 
 
 app = webapp2.WSGIApplication([
