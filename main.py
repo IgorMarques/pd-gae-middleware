@@ -68,6 +68,8 @@ class MainHandler(webapp2.RequestHandler):
 
     self.response.write(b.name + b.quantity)
 
+    b.put()
+
 
 
 

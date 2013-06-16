@@ -1,4 +1,6 @@
-class Book:
+from google.appengine.ext import db
+
+class Book(db.Model):
   def __init__(self, name, quantity):
       self.name = name
       self.quantity = quantity
