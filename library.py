@@ -2,12 +2,16 @@ from google.appengine.ext import db
 
 from book import Book
 
+import urllib
+
 class Library:
 
   @staticmethod 
   def add_book(self, b_name, b_quantity):
 
     b = Book(name= b_name, quantity= int(b_quantity))
+
+    urllib.unquote(b.name)
 
     self.response.write(b.name + str(b.quantity))
 
@@ -17,8 +21,10 @@ class Library:
   def get_books(self):
     books = db.GqlQuery("SELECT * FROM Book")
 
+    self.response.write("LIVRO    |   QUANTIDADE<br/>")
+
     for b in books:
-      self.response.write(b.name + str(b.quantity))
+      self.response.write("- "+b.name +" ----- " + str(b.quantity) + "<br/>")
 
   @staticmethod
   def lend_book(self, book_name):

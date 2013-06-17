@@ -14,7 +14,7 @@ class Register:
       #cadastrando aplicacao no lookup
       form_fields = {
         "endpoint": "igor-pd-app.appspot.com",
-        "id": "igor-app-id"
+        "id": "igor-app-pd"
       }
 
       url = "http://lookuppd.appspot.com/objects/add"
