@@ -88,7 +88,7 @@ class MainHandler(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler),
+    ('/igor-app-pd/library', MainHandler),
     ('/igor-app-id/hue', AppHandler)
 ], debug=True)
 
