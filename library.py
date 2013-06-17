@@ -13,7 +13,7 @@ class Library:
 
     urllib.unquote(b.name)
 
-    self.response.write(b.name + str(b.quantity))
+    self.response.write("> Voce cadastrou o livro: " + b.name  + " com "+ str(b.quantity))
 
     b.put()
 
@@ -25,6 +25,8 @@ class Library:
 
     for b in books:
       self.response.write("- "+b.name +" ----- " + str(b.quantity) + "<br/>")
+
+    self.response.write("<br/>")
 
   @staticmethod
   def lend_book(self, book_name):
@@ -55,8 +57,9 @@ class Library:
 
   @staticmethod
   def delete_all(self):
-    self.response.write("> Voce apagou o banco!")
+
     books= db.GqlQuery("SELECT * FROM Book")
     for b in books:
       b.delete()
 
+    self.response.write("> Voce apagou o banco!<br/>")
