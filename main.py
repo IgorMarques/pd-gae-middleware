@@ -66,11 +66,6 @@ class MainHandler(webapp2.RequestHandler):
   def post(self):
     params = decode(self.request.body)
 
-    Library.add_book(self, params["name"], params["qtd"])
-
-  def put(self):
-    params = decode(self.request.body)
-
     if (params ["request_type"] == "lend"): 
       Library.lend_book(self, params["book"])
     else:
@@ -78,6 +73,13 @@ class MainHandler(webapp2.RequestHandler):
         Library.return_book(self, params["book"])
       else:
         self.request.body("> Invalid operation!")
+
+    
+
+  def put(self):
+    params = decode(self.request.body)
+
+    Library.add_book(self, params["name"], params["qtd"])
 
   def delete(self):
     params = decode(self.request.body)
