@@ -61,7 +61,7 @@ class MainHandler(webapp2.RequestHandler):
     subject = "Solicitacao via Middleware"
     body = "Sua solicitacao foi feita com sucesso. O aluno que fez esse web service merece um 10."
 
-    Mailer.send_mail(self, user_address, subject, body)
+    #Mailer.send_mail(self, user_address, subject, body)
 
   def post(self):
     params = decode(self.request.body)
